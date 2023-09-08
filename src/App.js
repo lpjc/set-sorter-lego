@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     // Define the Rebrickable API endpoint
-    const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page=1&page_size15';
+    const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page=1&page_size15&ordering=year';
 
     // Define headers with your API key
     const headers = {
