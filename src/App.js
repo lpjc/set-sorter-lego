@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
+import './App.css';
 
 function App() {
   const [legoSets, setLegoSets] = useState([]);
@@ -7,7 +8,7 @@ function App() {
 
   useEffect(() => {
     // Define the Rebrickable API endpoint
-    const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page=1&page_size15&ordering=year';
+    const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page=1&page_size15';
 
     // Define headers with your API key
     const headers = {
@@ -33,25 +34,30 @@ function App() {
       });
   }, []); // The empty dependency array ensures this effect runs only once
 
+/* 
+Possible data from API:
+legoSet.set_num
+legoSet.theme_id
+
+*/
+
+
+
   return (
     <div>
       <h1>LEGO Sets</h1>
-      {legoSets.length > 0 ? (
-        <ul>
-          {legoSets.map((legoSet) => (
-            <li key={legoSet.set_num}>
-              <h2>{legoSet.name}</h2>
-              <img src={legoSet.set_img_url} alt={`Image of ${legoSet.name}`} />
-              <p>Set Number: {legoSet.set_num}</p>
-              <p>Theme: {legoSet.theme_id}</p>
-              <p>Year: {legoSet.year}</p>
-              {/* Add more details as needed */}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Loading LEGO set information...</p>
-      )}
+      <div className="lego-set-container">
+        {legoSets.map((legoSet) => (
+          <div className="lego-set-card" key={legoSet.set_num}>
+            <h2>{legoSet.name}</h2>
+            <p>Set Number: {legoSet.set_num}</p>
+            <p>Theme: {legoSet.theme_id}</p>
+            <p>Year: {legoSet.year}</p>
+            <img src={legoSet.set_img_url} alt={`Image of ${legoSet.name}`} className="lego-set-image" />
+            {/* Add more details as needed */}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
