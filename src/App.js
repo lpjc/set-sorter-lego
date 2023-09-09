@@ -40,6 +40,10 @@ function App() {
       });
   }, []); // The empty dependency array ensures this effect runs only once
 
+
+  const themeArray = [1, 2, 3]
+
+
   useEffect(() => {
     // Define a filtering function to include sets with more than 50 pieces and the selected theme
     const filterSets = (legoSet) => {
@@ -48,6 +52,7 @@ function App() {
 
     const filteredSets = legoSets.filter(filterSets);
     setFilteredSets(filteredSets); // Update filtered sets whenever the theme changes
+    console.log("fitlered set: " + filteredSets.length)
   }, [theme, legoSets]);
 
 
