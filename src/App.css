@@ -21,3 +21,12 @@
 .lego-set-card p {
   margin: 8px 0;
 }
+/* Add this CSS to center the content */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #06072c
+}
