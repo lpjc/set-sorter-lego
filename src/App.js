@@ -11,6 +11,7 @@ function App() {
   const [guess, setGuess] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
+  const [guessTimeline, setGuessTimeline] = useState([]); // Maintain a list of guesses and messages
 
   useEffect(() => {
     const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page_size=1000';
@@ -40,23 +41,31 @@ function App() {
     setGuess('');
     setFeedback('');
     setIsCorrect(false);
+    setGuessTimeline([]); // Clear the guess timeline on theme change
   }, [theme, legoSets]);
 
   const handleGuessSubmit = (e) => {
     e.preventDefault();
     const currentSet = filteredSets[currentSetIndex];
     const userGuess = parseInt(guess);
+    let newFeedback = '';
 
     if (userGuess === currentSet.num_parts) {
       setIsCorrect(true);
-      setFeedback('Correct!');
+      newFeedback = 'Correct!';
     } else if (userGuess < currentSet.num_parts) {
-      setFeedback('Higher');
+      newFeedback = 'Higher';
       setIsCorrect(false);
     } else {
-      setFeedback('Lower');
+      newFeedback = 'Lower';
       setIsCorrect(false);
     }
+
+    // Update the guess timeline with the new guess and feedback
+    setGuessTimeline((prevTimeline) => [...prevTimeline, { guess: userGuess, feedback: newFeedback }]);
+
+    setGuess(''); // Clear the input field
+    setFeedback(newFeedback); // Display the new feedback
   };
 
   const handleNextSet = () => {
@@ -65,25 +74,25 @@ function App() {
       const frameDelay = 40; // Delay between frames in milliseconds
       let startTime = null;
       let currentIndex = currentSetIndex;
-  
+
       const animateShuffle = (timestamp) => {
         if (!startTime) {
           startTime = timestamp;
         }
-  
+
         const elapsedTime = timestamp - startTime;
-  
+
         if (elapsedTime < shuffleDuration) {
           // Shuffle images
           let newIndex;
           do {
             newIndex = Math.floor(Math.random() * filteredSets.length);
           } while (newIndex === currentIndex);
-  
+
           currentIndex = newIndex; // Update currentIndex here
-  
+
           setCurrentSetIndex(newIndex);
-  
+
           // Request the next animation frame with the specified delay
           setTimeout(() => {
             requestAnimationFrame(animateShuffle);
@@ -91,54 +100,65 @@ function App() {
         } else {
           // After the shuffle, set the final image
           setCurrentSetIndex(currentIndex);
-  
+
           // Reset other values
           setGuess('');
           setFeedback('');
           setIsCorrect(false);
+          setGuessTimeline([]); // Clear the guess timeline
         }
       };
-  
+
       // Start the shuffle animation
       requestAnimationFrame(animateShuffle);
     }
   };
-  
 
   return (
     <div className="container">
-      {currentSetIndex !== null && filteredSets.length > 0 && (
-        <div className="card-container">
-          <div className="image-card">
-            <img src={filteredSets[currentSetIndex].set_img_url} alt={`Image of LEGO Set`} />
-          </div>
-          <div className="input-card">
-            <h2>{filteredSets[currentSetIndex].name}</h2>
-            <form onSubmit={handleGuessSubmit}>
-              <input
-                type="number"
-                value={guess}
-                onChange={(e) => setGuess(e.target.value)}
-                disabled={isCorrect}
-              />
-              <button type="submit" disabled={isCorrect}>
-                Guess
-              </button>
-            </form>
-            <div className="feedback">
-              {isCorrect ? (
-                <p className="correct">{feedback}</p>
-              ) : (
-                <p className="off-by">{feedback}</p>
-              )}
+  {currentSetIndex !== null && filteredSets.length > 0 && (
+    <div className="card-container">
+      <div className="image-card">
+        <img src={filteredSets[currentSetIndex].set_img_url} alt={`Image of LEGO Set`} />
+      </div>
+      <div className="input-card">
+        <h2>{filteredSets[currentSetIndex].name}</h2>
+        <div className="guess-timeline">
+          {guessTimeline.map((item, index) => (
+            <div key={index} className="guess-item">
+              <span className="guess-value">{item.guess}</span>
+              <span className={`feedback-value ${item.feedback === 'Correct!' ? 'correct' : 'off-by'}`}>
+                {item.feedback}
+              </span>
             </div>
-            <button className="next-button" onClick={handleNextSet}>
-              Next
-            </button>
-          </div>
+          ))}
         </div>
-      )}
+        <form onSubmit={handleGuessSubmit}>
+          <input
+            type="number"
+            value={guess}
+            onChange={(e) => setGuess(e.target.value)}
+            disabled={isCorrect}
+          />
+          <button type="submit" disabled={isCorrect}>
+            Guess
+          </button>
+        </form>
+        <div className="feedback">
+          {isCorrect ? (
+            <p className="correct">{feedback}</p>
+          ) : (
+            <p className="off-by">{feedback}</p>
+          )}
+        </div>
+        <button className="next-button" onClick={handleNextSet}>
+          Next
+        </button>
+      </div>
     </div>
+  )}
+</div>
+
   );
 }
 

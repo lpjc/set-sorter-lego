@@ -82,3 +82,25 @@ body {
 .next-button:hover {
   background-color: #0056b3;
 }
+/* Add this to your CSS file */
+.guess-timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.guess-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.guess-value {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.feedback-value {
+  color: #007acc; /* Adjust the color as desired */
+}
