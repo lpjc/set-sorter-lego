@@ -120,7 +120,6 @@ function App() {
       {currentSetIndex !== null && filteredSets.length > 0 && (
         <div className="card-container">
            <div className="header">
-              <h3>#{filteredSets[currentSetIndex].set_num} </h3>
               <h2>{filteredSets[currentSetIndex].name}</h2>
             </div>
           <div className="image-card">
@@ -131,14 +130,14 @@ function App() {
             <div className="input-card">
               <form onSubmit={handleGuessSubmit}>
                 <input
+                className='input-field'
                   type="number"
                   value={guess}
+                  placeholder="How many parts?"
                   onChange={(e) => setGuess(e.target.value)}
                   disabled={isCorrect}
                 />
-                <button className='button' type="submit" disabled={isCorrect}>
-                  Guess
-                </button>
+             
               </form>
               <div className="feedback">
                 {isCorrect ? (
