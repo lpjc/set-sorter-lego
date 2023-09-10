@@ -1,25 +1,50 @@
 /* Updated CSS for a minimalistic look */
+
+:root {
+  --main-bg-color: black;
+  --sec-bg-color:#131313;
+  --third-bg-color:#20252b ;
+  --main-accent-color:#FFE81F;
+  --sec-accent-color:#ffd600;
+  --comp-color:white;
+}
+
+
 body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
-  margin: 0;
+  background-image: url('https://i.pinimg.com/originals/d7/a6/11/d7a61190a836bdcfc62bf97af4f4c74b.png');
+  background-size: cover; /* Adjust as needed */
+  background-repeat: no-repeat; /* Adjust as needed */
+  background-attachment: fixed; /* Fixed background */
+  /* Add any other styling you need */
 }
 
 .container {
   text-align: center;
   max-width: 800px;
-}
+  margin-top: 15vh;
+  background: rgba(255, 255, 255, 0.41);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.7px);
+  -webkit-backdrop-filter: blur(5.7px);
+  border: 1px solid rgba(255, 255, 255, 0.44)
+  }
 
 .header {
   font-size: 24px;
-  margin-bottom: 20px;
+  font-family: 'Star Jedi', sans-serif;
+  color: var(--main-accent-color);
 }
 
 .card-container {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   padding: 20px;
 }
@@ -34,9 +59,8 @@ body {
 
 .image-card {
   flex: 1;
-  margin-right: 20px;
-  padding: 20px;
-  border-radius: 8px;
+  border-radius: 16px;
+  overflow: hidden;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s ease; /* Add a transition for opacity */
@@ -68,9 +92,9 @@ body {
   font-weight: bold;
 }
 
-.next-button {
-  background-color: #007bff;
-  color: #fff;
+.button {
+  background-color: var(--sec-accent-color);
+  color: var(--sec-bg-color);
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -79,16 +103,18 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.next-button:hover {
-  background-color: #0056b3;
-}
-/* Add this to your CSS file */
-.guess-timeline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.button:hover {
+  background-color: var(--sec-bg-color);
+  color: #ffd600;
 }
 
+/* Updated styles for guess timeline */
+.timeline-content {
+  display: flex;
+  flex-direction: column-reverse; /* Reverse order to move up */
+  align-items: center;
+  margin-top: 10px; /* Add margin to separate from input */
+  }
 
 .guess-item {
   display: flex;

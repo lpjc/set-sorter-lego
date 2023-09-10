@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+
 function App() {
   const [legoSets, setLegoSets] = useState([]);
   const apiKey = 'e00fe84219678222906b99be611d12c1';
@@ -116,50 +117,58 @@ function App() {
 
   return (
     <div className="container">
-  {currentSetIndex !== null && filteredSets.length > 0 && (
-    <div className="card-container">
-      <div className="image-card">
-        <img src={filteredSets[currentSetIndex].set_img_url} alt={`Image of LEGO Set`} />
-      </div>
-      <div className="input-card">
-        <h2>{filteredSets[currentSetIndex].name}</h2>
-        <div className="guess-timeline">
-          {guessTimeline.map((item, index) => (
-            <div key={index} className="guess-item">
-              <span className="guess-value">{item.guess}</span>
-              <span className={`feedback-value ${item.feedback === 'Correct!' ? 'correct' : 'off-by'}`}>
-                {item.feedback}
-              </span>
+      {currentSetIndex !== null && filteredSets.length > 0 && (
+        <div className="card-container">
+           <div className="header">
+              <h3>#{filteredSets[currentSetIndex].set_num} </h3>
+              <h2>{filteredSets[currentSetIndex].name}</h2>
             </div>
-          ))}
-        </div>
-        <form onSubmit={handleGuessSubmit}>
-          <input
-            type="number"
-            value={guess}
-            onChange={(e) => setGuess(e.target.value)}
-            disabled={isCorrect}
-          />
-          <button type="submit" disabled={isCorrect}>
-            Guess
+          <div className="image-card">
+            <img src={filteredSets[currentSetIndex].set_img_url} alt={`Image of LEGO Set`} />
+          </div>
+          <div className="content-container">
+           
+            <div className="input-card">
+              <form onSubmit={handleGuessSubmit}>
+                <input
+                  type="number"
+                  value={guess}
+                  onChange={(e) => setGuess(e.target.value)}
+                  disabled={isCorrect}
+                />
+                <button className='button' type="submit" disabled={isCorrect}>
+                  Guess
+                </button>
+              </form>
+              <div className="feedback">
+                {isCorrect ? (
+                  <p className="correct">{feedback}</p>
+                ) : (
+                  <p className="off-by">{feedback}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="guess-timeline">
+            <div className="timeline-content">
+              {guessTimeline.map((item, index) => (
+                <div key={index} className="guess-item">
+                  <span className="guess-value">{item.guess}</span>
+                  <span className={`feedback-value ${item.feedback === 'Correct!' ? 'correct' : 'off-by'}`}>
+                    {item.feedback}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <button className="button" onClick={handleNextSet}>
+            <i class="fa fa-random" aria-hidden="true"></i>
           </button>
-        </form>
-        <div className="feedback">
-          {isCorrect ? (
-            <p className="correct">{feedback}</p>
-          ) : (
-            <p className="off-by">{feedback}</p>
-          )}
         </div>
-        <button className="next-button" onClick={handleNextSet}>
-          Next
-        </button>
-      </div>
+      )}
     </div>
-  )}
-</div>
-
   );
+  
 }
 
 export default App;
