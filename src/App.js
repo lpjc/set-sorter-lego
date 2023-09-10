@@ -15,7 +15,7 @@ function App() {
   const [guessTimeline, setGuessTimeline] = useState([]); // Maintain a list of guesses and messages
 
   useEffect(() => {
-    const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page_size=1000';
+    const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page_size=4000';
     const headers = {
       Accept: 'application/json',
       Authorization: `key ${apiKey}`,
@@ -120,6 +120,7 @@ function App() {
       {currentSetIndex !== null && filteredSets.length > 0 && (
         <div className="card-container">
            <div className="header">
+
               <h2>{filteredSets[currentSetIndex].name}</h2>
             </div>
           <div className="image-card">
