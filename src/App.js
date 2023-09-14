@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
 function App() {
   const [legoSets, setLegoSets] = useState([]);
   const apiKey = 'e00fe84219678222906b99be611d12c1';
-  const [themes, setThemes] = useState([171,209,18,261]); // Replace with your desired theme IDs
+  const [themes, setThemes] = useState([171,209,18]); // Replace with your desired theme IDs
   const [currentSetIndex, setCurrentSetIndex] = useState(null); // Initialize as null
   const [guess, setGuess] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
   const [guessTimeline, setGuessTimeline] = useState([]); // Maintain a list of guesses and messages
   const [inputActive, setInputActive] = useState(true); // Initially active input
-
+  const inputRef = useRef(null);
   useEffect(() => {
     const apiUrl = 'https://rebrickable.com/api/v3/lego/sets/?page_size=4000';
     const headers = {
@@ -44,7 +44,15 @@ function App() {
       .catch((error) => {
         console.error('Error fetching LEGO set information:', error);
       });
+      
   }, [themes]);
+
+  useEffect(() => {
+    // Set focus on the input field when the component mounts
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const animateShuffle = () => {
     if (legoSets.length > 0) {
@@ -85,6 +93,12 @@ function App() {
           setIsCorrect(false);
           setGuessTimeline([]); // Clear the guess timeline
           setInputActive(true); // Enable the input field after shuffle
+               // Enable the input field after shuffle
+
+        // Set focus on the input field after shuffle
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }23
   
           // Log the currently shown set object after shuffle animation
           console.log('Currently shown set:', legoSets[currentIndex]);
@@ -95,7 +109,6 @@ function App() {
       requestAnimationFrame(animateShuffleFrame);
     }
   };
-  
 
   const handleGuessSubmit = (e) => {
     e.preventDefault();
@@ -152,7 +165,6 @@ function App() {
                   value={guess}
                   placeholder="How many parts?"
                   onChange={(e) => setGuess(e.target.value)}
-                  disabled={!inputActive}
                   autoFocus
                 />
               </form>
