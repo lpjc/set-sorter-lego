@@ -125,25 +125,35 @@ input[type="number"]::-webkit-outer-spin-button {
   color: var(--main-bg-color);
 }
 
-/* Updated styles for guess timeline */
 .timeline-content {
   display: flex;
-  flex-direction: column-reverse; /* Reverse order to move up */
+  flex-direction: row; /* Change to row to display guesses side by side */
   align-items: center;
   margin-top: 10px; /* Add margin to separate from input */
-  }
+}
 
 .guess-item {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
+  flex-direction: row; /* Keep this as column to separate guess and feedback */
+  margin-right: 10px; /* Add some spacing between guesses */
 }
 
 .guess-value {
   font-weight: bold;
+  font-size: 24px;
   margin-right: 5px;
 }
 
 .feedback-value {
-  color: #007acc; /* Adjust the color as desired */
+  font-weight: bold;
+  font-size: 18px; /* Set the font size for feedback */
+  color: #007acc; /* Default color is blue */
+}
+
+.feedback-value.lower {
+  color: rgb(255,5,5); /* Set text to purple for "Lower" */
+}
+
+.feedback-value.higher {
+  color: rgb(46,103,248)); /* Set text to blue for "Higher" */
 }
